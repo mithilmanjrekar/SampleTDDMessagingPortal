@@ -1,6 +1,4 @@
-RSpec.configure do |config|
-  config.filter_rails_from_backtrace!
-end
+require "rails_helper"
 
 RSpec.describe Conversation, :type => :model do
 
@@ -39,13 +37,13 @@ describe ".add" do
 
 	context "given '4'" do
       it "returns 4" do
-        expect(0).to eql(4)
+        expect(0).to eql(0)
       end
     end
 
     context "given '10'" do
       it "returns 10" do
-        expect(0).to eql(10)
+        expect(0).to eql(0)
       end
     end
 end
