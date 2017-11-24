@@ -25,6 +25,9 @@ class MessagesController < ApplicationController
   # POST /messages.json
   def create
     @message = Message.new(message_params)
+    @message.user_id = 1;
+    #gets this from the frontend as per the conversation that is opened 
+    @message.conversation_id = 4;
 
     respond_to do |format|
       if @message.save

@@ -8,6 +8,12 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
 
+
+  get 'conversationmessages' => 'conversations#getConversationsBySenderAndReciever'
+  get 'userconversation' => 'conversations#getAllUserConversations'
+
+  
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

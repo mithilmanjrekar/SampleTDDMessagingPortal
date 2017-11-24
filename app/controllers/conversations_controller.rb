@@ -1,5 +1,4 @@
 class ConversationsController < ApplicationController
-  before_action :set_conversation, only: [:show, :edit, :update, :destroy]
 
   # GET /conversations
   # GET /conversations.json
@@ -13,21 +12,46 @@ class ConversationsController < ApplicationController
   end
 
   # GET /conversations/new
-  def new
-    @conversation = Conversation.new
+  def new 
+    binding.pry
+    @conversation = Conversation.new.save
   end
 
   # GET /conversations/1/edit
   def edit
   end
 
+  def getAllConversationsByUser
+    @conversations = Conversation.where(:sender_id => 1).all
+
+    respond_to do |format|
+        msg = { :status => "ok", :message => "Success!", :conversation => @conversations }
+        format.json  { render :json => msg } # don't do msg.to_json
+    end
+
+  end  
+
+  def getConversationsBySenderAndReciever
+    #use joins params[:sender_id] params[:recipient_id] 
+    @conversations = Conversation.where(:sender_id => 1 , :recipient_id => 2 )
+    messages = Array.new
+    @conversations.each do |conversation|
+         messages.push(conversation.messages)
+    end
+
+    respond_to do |format|
+        msg = { :status => "ok", :message => "Success!", :conversation => @conversations  , :messages => messages}
+        format.json  { render :json => msg } # don't do msg.to_json
+    end
+  end 
+
   # POST /conversations
   # POST /conversations.json
   def create
-    @conversation = Conversation.new(conversation_params)
-
+    @conversation = Conversation.new
     respond_to do |format|
       if @conversation.save
+        
         format.html { redirect_to @conversation, notice: 'Conversation was successfully created.' }
         format.json { render :show, status: :created, location: @conversation }
       else
@@ -61,14 +85,14 @@ class ConversationsController < ApplicationController
     end
   end
 
-  private
+  # private
     # Use callbacks to share common setup or constraints between actions.
-    def set_conversation
-      @conversation = Conversation.find(params[:id])
-    end
+    # def set_conversation
+    #   @conversation = Conversation.find(params[:id])
+    # end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def conversation_params
-      params.fetch(:conversation, {})
-    end
+    # def conversation_params
+    #   params.fetch(:conversation, {})
+    # end
 end

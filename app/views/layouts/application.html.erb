@@ -1,14 +1,117 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>MessagingPortal</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+  <link data-require="bootstrap-css@3.2.0" data-semver="3.2.0" rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+  <script data-require="angular.js@1.2.22" data-semver="1.2.22" src="https://code.angularjs.org/1.2.22/angular.js"></script>
+  <script src="https://code.angularjs.org/1.2.20/angular-route.js">
+  </script>
+ <!--  <link rel="stylesheet" href="style.css" />
+ <script src="script.js"></script -->
 </head>
-<body>
 
-<%= yield %>
+<body ng-app="myApp">
+  <!--Now it Tells to AngularJS to be active in this portion of the page. In this case the entire document.(due to we apply on body tag ) -->
+  <div class="container">
+    <div class="jumbotron">
+      <br/>
+      <h3>Basic Messenger</h3>
+      <br/>
+      <!-- navigation menu start-->
+      <a href="#home" class="btn btn-primary">Users</a>
+      <a class="btn btn-success" href="#about">Conversations</a>
+      <a class="btn btn-danger" href="#contact">Messages</a>
+      <!-- navigation menu stop-->
 
+     <!--   <ul ng-repeat="detail in details">
+        <li>{{detail.name}}
+          <ul ng-repeat="detailed in details.name">
+            <li>{{detailed.prof}}</li>
+          </ul>
+        </li>
+      </ul> -->
+
+
+      <br/>
+      <br/>
+
+      <!-- by ng-view we create a space in this dynamic content come according to route by ng-view angular know that on which area content will set-->
+      <div ng-view="">
+      </div><br/>
+    </div>
+  </div>
 </body>
+
+<!-- Angular start here -->
+<script type="text/javascript">
+
+//create a module myApp
+var myApp = angular.module('myApp', ['ngRoute']);
+ 
+//Now Configure  our  routing
+myApp.config(function ($routeProvider, $locationProvider) {
+    console.log("route");
+    $routeProvider
+    // set route for the home page
+    .when('/users',
+    {
+        controller: 'UserCtrl',
+        templateUrl: '404.html'
+    })
+ 
+     // set route for the about page
+ 
+    .when('/conversations',{
+        controller: 'ConversationsCtrl',
+        templateUrl: "500.html"
+    })
+ 
+   // set route for the contact page
+ 
+    .when('/messages',{
+        controller: 'MessagesCtrl',
+        templateUrl: '500.html'
+    })
+ 
+    // if not match with any route config then send to home page
+ 
+     .otherwise({
+        redirectTo: '/users'
+      });
+});
+ 
+// create the controller and inject Angular's $scope
+  
+ 
+  // set for Home Controller
+  myApp.controller('UserCtrl', function($scope , users) {
+    // create a message to display in our view
+    $scope.message = "(',')---I am on users page---(',')";
+    console.log("(',')---I am on users page---(',')")
+
+    $scope.getUsers = function() {
+        
+            $http.get("users.json")
+                .success(function(data) {
+                    console.log(data);
+                })
+                .error(function() {
+                    console.log(data);
+                });    
+    }
+  });
+ 
+// set for About Controller
+  myApp.controller('ConversationsCtrl', function($scope) {
+    $scope.message = "(',')---I am on conersations page---(',')";
+    console.log("(',')---I am on conersations page---(',')")
+
+  });
+ 
+// set for Contact Controller
+  myApp.controller('MessagesCtrl', function($scope) {
+    $scope.message = "(',')---I am on messenger page---(',')";
+    console.log("(',')---I am on messenger page---(',')")
+  });
+</script>
 </html>
