@@ -21,28 +21,47 @@ class ConversationsController < ApplicationController
   def edit
   end
 
-  def getAllConversationsByUser
-    @conversations = Conversation.where(:sender_id => 1).all
-
-    respond_to do |format|
-        msg = { :status => "ok", :message => "Success!", :conversation => @conversations }
-        format.json  { render :json => msg } # don't do msg.to_json
+  def get_all_conversations_by_user
+    
+    reponse_status = 200
+    ActiveRecord::Base.transaction do
+      @conversations = Conversation.where(:sender_id => 1).all
     end
 
-  end  
+    if @conversations != nil
+      response_message = (@conversations.count < 1) ? true : false ? "No Conversations Found for the User." : "Success!" 
+    else  
+      reponse_status = 500
+      response_message = "Failure!"
+    end  
 
-  def getConversationsBySenderAndReciever
-    #use joins params[:sender_id] params[:recipient_id] 
-    @conversations = Conversation.where(:sender_id => 1 , :recipient_id => 2 )
+    respond_to do |format|
+        msg = { :status => reponse_status, :message => response_message, :conversation => @conversations }
+        format.json  { render :json => msg } 
+    end
+
+  end
+
+  def get_conversations_by_sender_and_reciever
+    
+    reponse_status = 200 
     messages = Array.new
-    @conversations.each do |conversation|
-         messages.push(conversation.messages)
+    
+    ActiveRecord::Base.transaction do
+      @conversation = Conversation.where(:sender_id => 1 , :recipient_id => 2 )
+
+      if !@conversation.nil? && !@conversation.blank? 
+        @conversation.each do |conversation|
+             messages.push(conversation.messages)
+        end
+      end
     end
 
     respond_to do |format|
-        msg = { :status => "ok", :message => "Success!", :conversation => @conversations  , :messages => messages}
+        msg = { :status => reponse_status, :message => "Success!", :conversation => @conversation  , :messages => messages}
         format.json  { render :json => msg } # don't do msg.to_json
     end
+
   end 
 
   # POST /conversations

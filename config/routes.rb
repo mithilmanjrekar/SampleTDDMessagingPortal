@@ -9,8 +9,8 @@ Rails.application.routes.draw do
   # root 'welcome#index'
 
 
-  get 'conversationmessages' => 'conversations#getConversationsBySenderAndReciever'
-  get 'userconversation' => 'conversations#getAllUserConversations'
+  get 'conversationmessages' => 'conversations#get_conversations_by_sender_and_reciever'
+  get 'userconversation' => 'conversations#get_all_conversations_by_user'
 
   
 

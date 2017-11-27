@@ -4,9 +4,8 @@ class Message < ActiveRecord::Base
 	belongs_to :conversation
     
 
-	validates :body, :presence => true, :length => {:maximum => 30000, :message => ' is a bit long...'}
-    validates :conversation_id, :presence => true
-    validates :user_id, :presence => true
-
+	validates :body, :allow_blank => false , :allow_nil => false , :length => {:maximum => 30, :message => ' is a bit long...'}
+    validates :conversation_id, :presence => true , :allow_blank => false , :allow_nil => false
+    validates :user_id, :presence => true , :allow_blank => false , :allow_nil => false
 
 end
