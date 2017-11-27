@@ -23,9 +23,6 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
 
-gem "rspec-rails", :group => [:development, :test]
-
-
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
@@ -36,9 +33,15 @@ gem "rspec-rails", :group => [:development, :test]
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
-  gem 'pry'
+    # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+	gem 'byebug'
+	gem 'pry'
+	gem 'faker'
+	gem 'factory_bot'
+	gem 'factory_girl_rails'
+	gem 'rspec-rails'
+	gem 'validates_email_format_of'
+	gem 'airborne'
 end
 
 group :development do

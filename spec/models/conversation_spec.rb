@@ -2,8 +2,6 @@ require "rails_helper"
 require 'faker'
 
 RSpec.describe Conversation, :type => :model do
-	#Note
-	#Class methods are prefixed with a dot (".add"), and instance methods with a dash ("#add").
 	describe "#conversation" do
 		context "Check if sender_id and reciever_id" do
 
@@ -15,7 +13,7 @@ RSpec.describe Conversation, :type => :model do
 					@conversation.recipient_id = common_sender_recipient_id
 		
 				@conversation.errors.messages.any?
-				@conversation.save.should eq(false)
+				expect(@conversation.save).to eq(false)
 				
 			end	
 
@@ -26,7 +24,7 @@ RSpec.describe Conversation, :type => :model do
 					@conversation.recipient_id = Faker::Number.number(6)
 				
 				@conversation.errors.messages.any?
-				@conversation.save.should eq(true)
+				expect(@conversation.save).to eq(true)
 
 			end	
 
@@ -41,7 +39,7 @@ RSpec.describe Conversation, :type => :model do
 					@conversation.recipient_id = Faker::Number.number(6)
 				
 				@conversation.errors.messages.any?
-				@conversation.save.should eq(false)
+				expect(@conversation.save).to eq(false)
 
 			end
 
@@ -51,7 +49,7 @@ RSpec.describe Conversation, :type => :model do
 					@conversation.recipient_id = Faker::Number.number(6)
 				
 				@conversation.errors.messages.any?
-				@conversation.save.should eq(false)
+				expect(@conversation.save).to eq(false)
 			end
 
 			it "is passed" do
@@ -61,7 +59,7 @@ RSpec.describe Conversation, :type => :model do
 					@conversation.recipient_id = Faker::Number.number(6)
 				
 				@conversation.errors.messages.any?
-				@conversation.save.should eq(true)
+				expect(@conversation.save).to eq(true)
 			end
 	    end
 
@@ -74,7 +72,7 @@ RSpec.describe Conversation, :type => :model do
 					@conversation.recipient_id = nil
 				
 				@conversation.errors.messages.any?
-				@conversation.save.should eq(false)
+				expect(@conversation.save).to eq(false)
 
 			end
 
@@ -84,7 +82,7 @@ RSpec.describe Conversation, :type => :model do
 				    @conversation.sender_id  = Faker::Number.number(6)
 
 				@conversation.errors.messages.any?
-				@conversation.save.should eq(false)
+				expect(@conversation.save).to eq(false)
 				
 			end
 
@@ -95,7 +93,7 @@ RSpec.describe Conversation, :type => :model do
 					@conversation.recipient_id = Faker::Number.number(6)
 
 				@conversation.errors.messages.any?
-				@conversation.save.should eq(true)
+				expect(@conversation.save).to eq(true)
 			end
 	    end
 	end

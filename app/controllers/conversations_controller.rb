@@ -13,7 +13,6 @@ class ConversationsController < ApplicationController
 
   # GET /conversations/new
   def new 
-    binding.pry
     @conversation = Conversation.new.save
   end
 
@@ -22,44 +21,50 @@ class ConversationsController < ApplicationController
   end
 
   def get_all_conversations_by_user
-    
     reponse_status = 200
+
     ActiveRecord::Base.transaction do
-      @conversations = Conversation.where(:sender_id => 1).all
+      @conversations = Conversation.where(:sender_id => params[:id]).all
     end
 
-    if @conversations != nil
-      response_message = (@conversations.count < 1) ? true : false ? "No Conversations Found for the User." : "Success!" 
+    if !@conversations.nil? && !@conversations.blank? && @conversations.count > 0
+      response_message = "Successfully fetched conversations for user.!" 
     else  
-      reponse_status = 500
-      response_message = "Failure!"
+      response_message = "No conversations found for the user!"
     end  
 
     respond_to do |format|
-        msg = { :status => reponse_status, :message => response_message, :conversation => @conversations }
+        msg = { :status => reponse_status, :message => response_message, :conversations => @conversations }
         format.json  { render :json => msg } 
     end
 
   end
 
-  def get_conversations_by_sender_and_reciever
-    
+  def get_conversation
     reponse_status = 200 
-    messages = Array.new
+    response_message = "No conversations found."
+    conversation_array = Array.new
     
     ActiveRecord::Base.transaction do
-      @conversation = Conversation.where(:sender_id => 1 , :recipient_id => 2 )
-
-      if !@conversation.nil? && !@conversation.blank? 
-        @conversation.each do |conversation|
-             messages.push(conversation.messages)
+      #Sender id for the logged in user will be picked from the logged in session
+      @conversations = Conversation.where(:sender_id => 1 , :recipient_id => params[:id])
+      if !@conversations.nil? && !@conversations.blank? 
+        #Loop around all the conversation and populate 
+        @conversations.each do |conversation|
+          if !conversation.nil? && !conversation.blank? && conversation.messages.exists?
+            active_conversations = Hash.new
+            active_conversations["conversation"] = conversation
+            active_conversations["messages"] = conversation.messages
+            conversation_array.push(active_conversations)
+          end 
         end
+        response_message =  "Successfully fetched conversation with messages."
       end
     end
-
+    
     respond_to do |format|
-        msg = { :status => reponse_status, :message => "Success!", :conversation => @conversation  , :messages => messages}
-        format.json  { render :json => msg } # don't do msg.to_json
+        msg = { :status => reponse_status, :message => response_message, :conversation => conversation_array  }
+        format.json  { render :json => msg }
     end
 
   end 

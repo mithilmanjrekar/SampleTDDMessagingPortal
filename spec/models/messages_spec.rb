@@ -2,8 +2,6 @@ require "rails_helper"
 require 'faker'
 
 RSpec.describe Message, :type => :model do
-	#Note
-	#Class methods are prefixed with a dot (".add"), and instance methods with a dash ("#add").
 	describe "#message" do
 		context "Check if body matches the validations for" do
 
@@ -15,8 +13,8 @@ RSpec.describe Message, :type => :model do
 					@message.user_id = Faker::Number.number(6)
 		
 				@message.errors.messages.any?
-				@message.save.should eq(true)
-				
+				expect(@message.save).to eq(true)
+
 			end	
 
 			it "is too long." do
@@ -27,7 +25,7 @@ RSpec.describe Message, :type => :model do
 					@message.user_id = Faker::Number.number(6)
 				
 				@message.errors.messages.any?
-				@message.save.should eq(false)
+				expect(@message.save).to eq(false)
 
 			end	
 
@@ -39,7 +37,7 @@ RSpec.describe Message, :type => :model do
 					@message.user_id = Faker::Number.number(6)
 				
 				@message.errors.messages.any?
-				@message.save.should eq(false)
+				expect(@message.save).to eq(false)
 
 			end	
 
@@ -55,7 +53,7 @@ RSpec.describe Message, :type => :model do
 					@message.user_id = Faker::Number.number(6)
 				
 				@message.errors.messages.any?
-				@message.save.should eq(false)
+				expect(@message.save).to eq(false)
 
 			end
 
@@ -67,7 +65,7 @@ RSpec.describe Message, :type => :model do
 					@message.user_id = Faker::Number.number(6)
 				
 				@message.errors.messages.any?
-				@message.save.should eq(false)
+				expect(@message.save).to eq(false)
 			end
 
 			it "is passed" do
@@ -78,7 +76,7 @@ RSpec.describe Message, :type => :model do
 					@message.user_id = Faker::Number.number(6)
 				
 				@message.errors.messages.any?
-				@message.save.should eq(true)
+				expect(@message.save).to eq(true)
 			end
 	    end
 
@@ -92,7 +90,7 @@ RSpec.describe Message, :type => :model do
 					@message.user_id = nil
 				
 				@message.errors.messages.any?
-				@message.save.should eq(false)
+				expect(@message.save).to eq(false)
 
 			end
 
@@ -104,7 +102,7 @@ RSpec.describe Message, :type => :model do
 					# @message.user_id = 
 
 				@message.errors.messages.any?
-				@message.save.should eq(false)
+				expect(@message.save).to eq(false)
 				
 			end
 
@@ -116,7 +114,7 @@ RSpec.describe Message, :type => :model do
 					@message.user_id = Faker::Number.number(6)
 				
 				@message.errors.messages.any?
-				@message.save.should eq(true)
+				expect(@message.save).to eq(true)
 			end
 	    end
 	end
