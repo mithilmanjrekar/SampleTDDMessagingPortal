@@ -11,9 +11,9 @@ Rails.application.routes.draw do
 
   get 'conversation_messages/:id' => 'conversations#get_conversation'
   get 'user_conversation/:id' => 'conversations#get_all_conversations_by_user'
+  post 'send_message' => 'messages#send_message_in_conversation'
 
   
-
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

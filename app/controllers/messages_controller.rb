@@ -21,13 +21,25 @@ class MessagesController < ApplicationController
   def edit
   end
 
+  # POST /send_message
+  def send_message_in_conversation
+    @message = Message.new(conversation_message_params)
+    #User id for the logged in user will be picked from session
+    @message.user_id = 1;
+  
+    respond_to do |format|
+      if @message.save
+        format.json { render :show, status: :created, location: @message }
+      else
+        format.json { render json: @message.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # POST /messages
   # POST /messages.json
   def create
     @message = Message.new(message_params)
-    @message.user_id = 1;
-    #gets this from the frontend as per the conversation that is opened 
-    @message.conversation_id = 4;
 
     respond_to do |format|
       if @message.save
@@ -74,4 +86,8 @@ class MessagesController < ApplicationController
     def message_params
       params.fetch(:message, {})
     end
+
+    def conversation_message_params
+      params.require(:message).permit(:body, :conversation_id)
+    end  
 end

@@ -46,7 +46,7 @@ class ConversationsController < ApplicationController
     conversation_array = Array.new
     
     ActiveRecord::Base.transaction do
-      #Sender id for the logged in user will be picked from the logged in session
+      #Sender id for the logged in user will be picked from session
       @conversations = Conversation.where(:sender_id => 1 , :recipient_id => params[:id])
       if !@conversations.nil? && !@conversations.blank? 
         #Loop around all the conversation and populate 
@@ -58,7 +58,7 @@ class ConversationsController < ApplicationController
             conversation_array.push(active_conversations)
           end 
         end
-        response_message =  "Successfully fetched conversation with messages."
+        response_message =  "Sucessfully fetched conversation with messages."
       end
     end
     
@@ -72,7 +72,8 @@ class ConversationsController < ApplicationController
   # POST /conversations
   # POST /conversations.json
   def create
-    @conversation = Conversation.new
+    @conversation = Conversation.new(:sender_id => params[:conversation][:sender_id], :recipient_id => params[:conversation][:recipient_id])
+
     respond_to do |format|
       if @conversation.save
         
@@ -109,14 +110,4 @@ class ConversationsController < ApplicationController
     end
   end
 
-  # private
-    # Use callbacks to share common setup or constraints between actions.
-    # def set_conversation
-    #   @conversation = Conversation.find(params[:id])
-    # end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    # def conversation_params
-    #   params.fetch(:conversation, {})
-    # end
 end
