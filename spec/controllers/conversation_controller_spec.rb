@@ -18,7 +18,6 @@ RSpec.describe ConversationsController do
    
     it "gets all conversations by users." do
       get :get_conversation  ,id: 2 , format: :json
-      binding.pry
       response_body = JSON.parse(response.body)
       expect(response_body["status"]).to eql(200)
     end

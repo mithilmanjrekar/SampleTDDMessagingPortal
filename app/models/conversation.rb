@@ -19,4 +19,23 @@ class Conversation < ActiveRecord::Base
 		end
 	end
 
+	def self.get_conversations(sender_id, recipient_id)
+		return Conversation.where(:sender_id => sender_id , :recipient_id => recipient_id)
+	end 
+
+    #Loop around all the conversation and populate messages
+	def self.get_populated_coversations_messages(conversations)
+		conversation_array = Array.new
+		conversations.each do |conversation|
+	      if !conversation.nil? && !conversation.blank? && conversation.messages.exists?
+	        active_conversations_hash = Hash.new
+	        active_conversations_hash["conversation"] = conversation
+	        active_conversations_hash["messages"] = conversation.messages
+	        conversation_array.push(active_conversations_hash)
+	      end 
+	    end
+
+	    return conversation_array 
+	end	
+
 end
