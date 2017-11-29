@@ -1,5 +1,4 @@
 class ConversationsController < ApplicationController
-
   # GET /conversations
   # GET /conversations.json
   def index
@@ -32,7 +31,6 @@ class ConversationsController < ApplicationController
     else  
       response_message = "No conversations found for the user!"
     end  
-
     respond_to do |format|
         msg = { :status => reponse_status, :message => response_message, :conversations => @conversations }
         format.json  { render :json => msg } 
@@ -40,34 +38,6 @@ class ConversationsController < ApplicationController
 
   end
 
-  # def get_conversation
-  #   reponse_status = 200 
-  #   response_message = "No conversations found."
-  #   conversation_array = Array.new
-    
-  #   ActiveRecord::Base.transaction do
-  #     #Sender id for the logged in user will be picked from session
-  #     @conversations = Conversation.where(:sender_id => 1 , :recipient_id => params[:id])
-  #     if !@conversations.nil? && !@conversations.blank? 
-  #       #Loop around all the conversation and populate 
-  #       @conversations.each do |conversation|
-  #         if !conversation.nil? && !conversation.blank? && conversation.messages.exists?
-  #           active_conversations = Hash.new
-  #           active_conversations["conversation"] = conversation
-  #           active_conversations["messages"] = conversation.messages
-  #           conversation_array.push(active_conversations)
-  #         end 
-  #       end
-  #       response_message =  "Sucessfully fetched conversation with messages."
-  #     end
-  #   end
-    
-  #   respond_to do |format|
-  #       msg = { :status => reponse_status, :message => response_message, :conversation => conversation_array  }
-  #       format.json  { render :json => msg }
-  #   end
-
-  # end 
 
   def get_conversation
   reponse_status = 200 
